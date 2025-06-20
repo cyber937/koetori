@@ -1,103 +1,119 @@
-import Image from "next/image";
+'use client';
+
+import React, { useState } from 'react';
+import { Switch } from 'cyberseeds-ui';
+
+// 多言語対応のテキスト
+const translations = {
+  ja: {
+    title: 'コエトリ - 音声抜粋編集',
+    fileLabel: '音声ファイルを選択（mp3/wav/m4a）:',
+    durationLabel: '抽出したい長さ（秒）:',
+    submit: '送信',
+    processing: '処理中...',
+    resultTitle: '抽出された重要発言:',
+    errorMessage: '処理に失敗しました',
+    languageSwitch: 'English'
+  },
+  en: {
+    title: 'Koetori - Audio Excerpt Editor',
+    fileLabel: 'Select audio file (mp3/wav/m4a):',
+    durationLabel: 'Desired excerpt length (seconds):',
+    submit: 'Submit',
+    processing: 'Processing...',
+    resultTitle: 'Extracted Important Statements:',
+    errorMessage: 'Processing failed',
+    languageSwitch: '日本語'
+  }
+};
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [file, setFile] = useState<File | null>(null);
+  const [duration, setDuration] = useState<number>(60);
+  const [result, setResult] = useState<string>('');
+  const [loading, setLoading] = useState(false);
+  const [language, setLanguage] = useState<'ja' | 'en'>('ja');
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const t = translations[language];
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!file) return;
+
+    setLoading(true);
+    setResult('');
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('duration', duration.toString());
+
+    const res = await fetch('/api/transcribe', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const data = await res.json();
+    setResult(data.result || t.errorMessage);
+    setLoading(false);
+  };
+
+  const toggleLanguage = () => {
+    setLanguage(language === 'ja' ? 'en' : 'ja');
+  };
+
+  return (
+    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+        <h1>{t.title}</h1>
+
+        {/* 言語切り替えスイッチ */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <span style={{ fontSize: '0.875rem', color: 'var(--foreground)' }}>JA</span>
+          <Switch
+            checked={language === 'en'}
+            onClick={toggleLanguage}
+            color="blue"
+            offLabel=''
+            onLabel=''
+          />
+          <span style={{ fontSize: '0.875rem', color: 'var(--foreground)' }}>EN</span>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+      </div>
+
+      <form onSubmit={handleSubmit} style={{ marginTop: '1rem' }}>
+        <div>
+          <label>{t.fileLabel}</label><br />
+          <input
+            type="file"
+            accept="audio/*"
+            onChange={(e) => setFile(e.target.files?.[0] || null)}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+        </div>
+        <div style={{ marginTop: '1rem' }}>
+          <label>{t.durationLabel}</label><br />
+          <input
+            type="number"
+            value={duration}
+            onChange={(e) => setDuration(Number(e.target.value))}
+            min={10}
+            max={300}
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        </div>
+        <button
+          type="submit"
+          disabled={!file || loading}
+          style={{ marginTop: '1rem' }}
         >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          {loading ? t.processing : t.submit}
+        </button>
+      </form>
+
+      {result && (
+        <div style={{ marginTop: '2rem', whiteSpace: 'pre-wrap' }}>
+          <h2>{t.resultTitle}</h2>
+          <p>{result}</p>
+        </div>
+      )}
     </div>
   );
 }
