@@ -1,8 +1,11 @@
 @import "tailwindcss";
+@import "cyberseeds-ui/style.css";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --background-hover: #e0e0e0;
+  --border-color: #666;
 }
 
 @theme inline {
@@ -16,6 +19,8 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --background-hover: #333;
+    --border-color: #444;
   }
 }
 
