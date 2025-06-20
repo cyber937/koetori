@@ -1,42 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Koetori 🕊️  
+**Automatically edit interview audio to fit a specified duration.**
 
-## Getting Started
+> ⚠️ **This project is currently under active development. Features and specifications may change without notice.**
 
-First, run the development server:
+---
+
+## 🧭 Overview
+
+**Koetori** is a tool that lets you upload interview audio and automatically trims it to fit within a user-specified length (e.g., 60 seconds), extracting only the most important segments using AI.
+
+Currently, we are developing a **prototype focused on transcription via Whisper API and automatic excerpt editing**.
+
+---
+
+## ✨ Key Features (Planned)
+
+- 🎙 **Audio file upload support**
+- 🧠 **High-accuracy transcription using Whisper API**
+- ⏱ **Automatic trimming based on time constraints**
+- 🖼 **Web-based UI with React**
+- 🌐 **Planned future support for video editing and TTS**
+
+---
+
+## 🚧 Current Progress
+
+- [ ] Audio file upload
+- [ ] Transcription via Whisper API
+- [ ] Key sentence extraction to match target duration
+- [ ] Preview & editing interface
+- [ ] Final audio output generation
+
+---
+
+## 🛠 Tech Stack (Current & Planned)
+
+- Frontend: **React + TypeScript**
+- Backend: **Node.js + Express**
+- AI: **OpenAI Whisper API**, **GPT-4 (summary logic)**
+- Other: **ffmpeg** for audio extraction and preprocessing
+
+---
+
+## 🏃 Quick Start (For Developers)
 
 ```bash
+git clone https://github.com/yourusername/koetori.git
+cd koetori
+npm install
+cp .env.example .env  # Add your API keys and settings
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-# koetori
-
-# koetori
-
-# koetori
