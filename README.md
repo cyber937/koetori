@@ -1,39 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Koetori（コエトリ）🕊️  
+**インタビュー音声を、指定した長さに自動で編集。**
 
-## Getting Started
+> ⚠️ **このプロジェクトは現在開発中です。予告なく仕様が変更される可能性があります。**
 
-First, run the development server:
+---
+
+## 🧭 概要
+
+**Koetori** は、インタビューなどの音声素材をアップロードすると、指定された長さ（例：60秒）に収まるように、重要な発言をAIが自動で抜粋・編集してくれるツールです。  
+現在は、**音声からの文字起こし（Whisper API）と、要点抽出による時間制限付き編集のプロトタイプ**を開発中です。
+
+---
+
+## ✨ 主な特徴（予定）
+
+- 🎙 **音声アップロード対応**
+- 🧠 **Whisper APIによる高精度な文字起こし**
+- ⏱ **再生時間を指定して要点のみを自動編集**
+- 🖼 **Webベースの操作UI（React）**
+- 🌐 **将来的には動画編集やTTS出力にも対応予定**
+
+---
+
+## 🚧 現在の進捗
+
+- [x] 音声ファイルのアップロード
+- [ ] Whisper APIによる文字起こし処理
+- [ ] 指定時間に合わせた発話の抽出ロジック
+- [ ] ユーザーが確認・調整できるUI
+- [ ] 最終音声の出力
+
+---
+
+## 🛠 技術スタック（予定含む）
+
+- Frontend: **React + TypeScript**
+- Backend: **Node.js + Express**
+- AI: **Whisper API**, **GPT-4（要点抽出）**
+- その他: **ffmpeg（音声抽出・整形）**
+
+---
+
+## 🏃 クイックスタート（開発者向け）
 
 ```bash
+git clone https://github.com/yourusername/koetori.git
+cd koetori
+npm install
+cp .env.example .env  # APIキーなどを設定
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# koetori
-# koetori
-# koetori
